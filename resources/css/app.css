@@ -1,3 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "bootstrap";
+
+/*
+Start fix bug with show modal (by component BModal)
+*/
+.modal {
+   display: block;
+}
+.modal-dialog {
+    z-index: 1051;
+}
+/*
+Finish fix bug with show modal
+*/
