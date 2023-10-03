@@ -1,12 +1,14 @@
 <template>
     <BModal :model-value="show" @update:model-value="$emit('update:show', $event.target?.value || false)">
-        <p>Вы действительно хотите удалить клиента {{ name }}?</p>
-        <p>Восстановить данные после удаления невозможно.</p>
+        <slot>
+            <p>Вы действительно хотите выполнить удаление?</p>
+            <p>Восстановить данные после удаления невозможно.</p>
+        </slot>
 
         <template #footer>
             <div class="d-flex gap-2">
                 <BButton variant="secondary" @click="cancel()">Отмена</BButton>
-                <BButton variant="danger" @click="remove()" :disabled="processing">Удалить клиента</BButton>
+                <BButton variant="danger" @click="remove()" :disabled="processing">{{ yesTitle }}</BButton>
             </div>
         </template>
     </BModal>
@@ -18,10 +20,6 @@ import {router} from "@inertiajs/vue3";
 import {ref} from "vue";
 
 const props = defineProps({
-    name: {
-        required: true,
-        type: String,
-    },
     urlOnDelete: {
         required: true,
     },
@@ -29,6 +27,10 @@ const props = defineProps({
         required: true,
         type: Boolean,
     },
+    yesTitle: {
+        type: String,
+        defaults: 'Удалить',
+    }
 })
 
 const emit = defineEmits(['update:show'])

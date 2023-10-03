@@ -47,15 +47,18 @@
         </template>
     </BModal>
 
-    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="urlOnDelete" :name="form.name"/>
+    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="urlOnDelete" yes-title="Удалить клиента">
+        <p>Вы действительно хотите удалить клиента {{ form.name }}?</p>
+        <p>Восстановить данные после удаления невозможно.</p>
+    </DeleteConfirm>
 </template>
 
 <script setup>
 import TextInput from "@/Components/TextInput.vue";
+import DeleteConfirm from "@/Components/DeleteConfirm.vue";
 import { BModal, BButton } from "bootstrap-vue-next";
 import {router, useForm} from "@inertiajs/vue3";
 import {computed, ref} from "vue";
-import DeleteConfirm from "@/Pages/Clients/Partials/DeleteConfirm.vue";
 
 const props = defineProps({
     show: {
