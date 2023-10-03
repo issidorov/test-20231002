@@ -16,5 +16,6 @@
 
 - Laravel v10
 - PHP v8.2
+- MySQL v8.0
 - Vue.js v3
 - Inertia.js
