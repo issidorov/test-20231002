@@ -14,7 +14,7 @@ class ClientsController extends Controller
     {
         $clients = Client::orderByDesc('id')->paginate(15);
 
-        return Inertia::render('Clients/ClientsIndex', [
+        return Inertia::render('Clients/Index', [
             'clients' => $clients,
         ]);
     }

@@ -4,7 +4,7 @@ import {Head, router, useForm} from '@inertiajs/vue3';
 import NoItemsText from "@/Components/NoItemsText.vue";
 import {onMounted, ref} from "vue";
 import { BButton } from "bootstrap-vue-next";
-import ClientFormModal from "@/Pages/Clients/Partials/ClientFormModal.vue";
+import EditModal from "@/Pages/Clients/Partials/EditModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
@@ -86,5 +86,5 @@ function editClient(client) {
         </div>
     </AuthenticatedLayout>
 
-    <ClientFormModal v-model:form="modalClient" :id="modalClientId" v-model:show="modalClientShown"/>
+    <EditModal v-model:form="modalClient" :id="modalClientId" v-model:show="modalClientShown"/>
 </template>
