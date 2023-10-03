@@ -18,11 +18,6 @@ const userDropdownShow = ref(false);
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                        Dashboard
-                    </NavLink>
-                </li>
-                <li class="nav-item">
                     <NavLink :href="route('clients')" :active="route().current('clients')">
                         Клиенты
                     </NavLink>
