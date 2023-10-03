@@ -22,6 +22,11 @@ const userDropdownShow = ref(false);
                         Dashboard
                     </NavLink>
                 </li>
+                <li class="nav-item">
+                    <NavLink :href="route('clients')" :active="route().current('clients')">
+                        Клиенты
+                    </NavLink>
+                </li>
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown">

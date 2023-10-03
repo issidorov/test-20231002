@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Redirect;
@@ -25,6 +26,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
+    Route::post('/client/new', [ClientsController::class, 'store'])->name('client.new');
+    Route::post('/client/{id}', [ClientsController::class, 'store'])->name('client.update');
+    Route::delete('/client/{id}', [ClientsController::class, 'delete'])->name('client.delete');
 });
 
 Route::middleware('auth')->group(function () {
