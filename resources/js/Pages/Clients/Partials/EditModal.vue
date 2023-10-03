@@ -3,6 +3,7 @@
         :model-value="show"
         :title="isNew ? 'Добавление клиента' : 'Редактирование клиента'"
         @update:model-value="$emit('update:show', $event.target?.value || false)"
+        v-if="form"
     >
         <form @submit.prevent="submit">
             <TextInput
@@ -47,7 +48,7 @@
         </template>
     </BModal>
 
-    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="urlOnDelete" yes-title="Удалить клиента">
+    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="urlOnDelete" yes-title="Удалить клиента" v-if="form">
         <p>Вы действительно хотите удалить клиента {{ form.name }}?</p>
         <p>Восстановить данные после удаления невозможно.</p>
     </DeleteConfirm>
@@ -58,7 +59,7 @@ import TextInput from "@/Components/TextInput.vue";
 import DeleteConfirm from "@/Components/DeleteConfirm.vue";
 import { BModal, BButton } from "bootstrap-vue-next";
 import {router, useForm} from "@inertiajs/vue3";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 
 const props = defineProps({
     show: {
@@ -69,13 +70,26 @@ const props = defineProps({
         type: [Number, null],
         required: true,
     },
-    form: {
-        type: Object,
+    client: {
         required: true,
-    },
+    }
 });
 
 const emit = defineEmits(['update:show', 'update:form']);
+
+watch(() => props.show, (newValue) => {
+    if (newValue === true) {
+        if (props.client) {
+            fill(props.client);
+        }
+    } else {
+        reset();
+    }
+})
+
+onMounted(() => {
+    reset();
+})
 
 const processing = ref(false);
 
@@ -83,17 +97,30 @@ const deleteConfirm = ref(false);
 const urlOnDelete = computed(() => props.id ? route('client.delete', {id: props.id}) : null);
 const isNew = computed(() => !props.id);
 
+const form = ref(null);
+
+function reset() {
+    form.value = useForm({
+        name: '',
+        address: '',
+        email: '',
+    });
+}
+
+function fill(client) {
+    form.value = useForm({
+        name: client.name,
+        address: client.address,
+        email: client.email,
+    });
+}
+
 function submit() {
     processing.value = true;
     const url = isNew.value ? route('client.new') : route('client.update', {id: props.id});
-    props.form.post(url, {
+    form.value.post(url, {
         onSuccess() {
             emit('update:show', false);
-            emit('update:form', useForm({
-                name: '',
-                address: '',
-                email: '',
-            }));
             if (isNew.value) {
                 router.visit(route('clients'));
             }

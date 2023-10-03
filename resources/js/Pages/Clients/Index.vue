@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, router, useForm} from '@inertiajs/vue3';
+import {Head, router} from '@inertiajs/vue3';
 import NoItemsText from "@/Components/NoItemsText.vue";
 import {onMounted, ref} from "vue";
 import { BButton } from "bootstrap-vue-next";
@@ -19,29 +19,17 @@ onMounted(() => {
 
 const modalClientShown = ref(false);
 const modalClientId = ref(null);
-const modalClient = ref(useForm({
-    name: '',
-    address: '',
-    email: '',
-}));
+const clientModel = ref(null);
 
 
 function newClient() {
-    modalClient.value = useForm({
-        name: '',
-        address: '',
-        email: '',
-    });
+    clientModel.value = null;
     modalClientId.value = null;
     modalClientShown.value = true;
 }
 
 function editClient(client) {
-    modalClient.value = useForm({
-        name: client.name,
-        address: client.address,
-        email: client.email,
-    });
+    clientModel.value = client;
     modalClientId.value = client.id;
     modalClientShown.value = true;
 }
@@ -86,5 +74,5 @@ function editClient(client) {
         </div>
     </AuthenticatedLayout>
 
-    <EditModal v-model:form="modalClient" :id="modalClientId" v-model:show="modalClientShown"/>
+    <EditModal :client="clientModel" :id="modalClientId" v-model:show="modalClientShown"/>
 </template>
