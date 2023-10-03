@@ -38,7 +38,7 @@ function editClient(client) {
 </script>
 
 <template>
-    <Head title="Clients" />
+    <Head title="Клиенты" />
 
     <AuthenticatedLayout>
         <template #header>
