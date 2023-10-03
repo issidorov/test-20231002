@@ -27,6 +27,11 @@ const userDropdownShow = ref(false);
                         Клиенты
                     </NavLink>
                 </li>
+                <li class="nav-item">
+                    <NavLink :href="route('orders')" :active="route().current('orders')">
+                        Заказы
+                    </NavLink>
+                </li>
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
