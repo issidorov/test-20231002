@@ -81,6 +81,7 @@ const processing = ref(false);
 
 const deleteConfirm = ref(false);
 const urlOnDelete = computed(() => props.id ? route('client.delete', {id: props.id}) : null);
+const isNew = computed(() => !props.id);
 
 function submit() {
     processing.value = true;
@@ -110,7 +111,5 @@ function cancel() {
 function remove() {
     deleteConfirm.value = true;
 }
-
-const isNew = computed(() => !props.id);
 
 </script>
