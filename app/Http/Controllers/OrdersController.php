@@ -30,7 +30,7 @@ class OrdersController extends Controller
         $data = $request->validate([
             'number' => ['required', 'string', 'max:255'],
             'date' => ['required', 'string', 'max:255', 'date'],
-            'cost' => ['required', 'numeric', 'min:0', 'max:10000000'],
+            'cost' => ['required', 'numeric', 'between:0,999999'],
             'client_id' => ['required', 'integer', Rule::exists(Client::class, 'id')],
         ]);
 
