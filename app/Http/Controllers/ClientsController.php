@@ -24,9 +24,9 @@ class ClientsController extends Controller
         $client = Client::findOrNew($id);
 
         $data = $request->validate([
-            'name' => ['required', 'string'],
-            'address' => ['required', 'string'],
-            'email' => ['required', 'string', 'email'],
+            'name' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
         $client->fill($data);

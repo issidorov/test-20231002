@@ -28,9 +28,9 @@ class OrdersController extends Controller
         $order = Order::findOrNew($id);
 
         $data = $request->validate([
-            'number' => ['required', 'string'],
-            'date' => ['required', 'string', 'date'],
-            'cost' => ['required', 'numeric'],
+            'number' => ['required', 'string', 'max:255'],
+            'date' => ['required', 'string', 'max:255', 'date'],
+            'cost' => ['required', 'numeric', 'min:0', 'max:10000000'],
             'client_id' => ['required', 'integer', Rule::exists(Client::class, 'id')],
         ]);
 
