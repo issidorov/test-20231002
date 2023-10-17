@@ -1,5 +1,5 @@
 <template>
-    <EditModal v-model:show="show" :is-new="isNewClient" :title="title"
+    <EditModal v-model:show="show" :is-new="isNew" :title="title"
                @init="resetForm()" @save="onSave" @delete="onDelete">
 
         <TextInput
@@ -48,8 +48,8 @@ const client = ref(null);
 const form = ref(null);
 const processing = ref(false);
 
-const isNewClient = computed(() => !client.value);
-const title = computed(() => isNewClient.value ? 'Добавление клиента' : 'Редактирование клиента');
+const isNew = computed(() => !client.value);
+const title = computed(() => isNew.value ? 'Добавление клиента' : 'Редактирование клиента');
 
 function showAsNew() {
     resetForm();
@@ -74,11 +74,11 @@ function resetForm(client = null) {
 }
 
 function onSave({onFinish}) {
-    const url = isNewClient.value ? route('client.new') : route('client.update', {id: client.value.id});
+    const url = isNew.value ? route('client.new') : route('client.update', {id: client.value.id});
     form.value.post(url, {
         onSuccess() {
             show.value = false;
-            if (isNewClient.value) {
+            if (isNew.value) {
                 router.visit(route('clients'));
             }
         },
