@@ -20,8 +20,9 @@ import {router} from "@inertiajs/vue3";
 import {ref} from "vue";
 
 const props = defineProps({
+    /** @deprecated */
     urlOnDelete: {
-        required: true,
+        required: false,
     },
     show: {
         required: true,
@@ -33,7 +34,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['update:show'])
+const emit = defineEmits(['update:show', 'confirmed'])
 
 const processing = ref(false);
 
@@ -42,15 +43,15 @@ function cancel() {
 }
 
 function remove() {
-    processing.value = true;
-    router.visit(props.urlOnDelete, {
-        method: 'delete',
-        onSuccess() {
-            emit('update:show', false);
-        },
-        onFinish() {
-            processing.value = false;
-        },
-    })
+    emit('confirmed');
+
+    if (props.urlOnDelete) {
+        router.visit(props.urlOnDelete, {
+            method: 'delete',
+            onSuccess() {
+                emit('update:show', false);
+            },
+        })
+    }
 }
 </script>
