@@ -4,36 +4,21 @@ import {Head, router} from '@inertiajs/vue3';
 import NoItemsText from "@/Components/NoItemsText.vue";
 import {onMounted, ref} from "vue";
 import { BButton } from "bootstrap-vue-next";
-import EditModal from "@/Pages/Clients/Partials/EditModal.vue";
 import Pagination from "@/Components/Pagination.vue";
+import ClientEditModal from "@/Pages/Clients/Partials/ClientEditModal.vue";
 
 const props = defineProps({
     clients: Object,
 })
+
+/** @type ClientEditModal */
+const clientEditModal = ref(null);
 
 onMounted(() => {
     if (props.clients.data.length === 0 && props.clients.current_page > 1) {
         router.visit(props.clients.last_page_url);
     }
 })
-
-const modalClientShown = ref(false);
-const modalClientId = ref(null);
-const clientModel = ref(null);
-
-
-function newClient() {
-    clientModel.value = null;
-    modalClientId.value = null;
-    modalClientShown.value = true;
-}
-
-function editClient(client) {
-    clientModel.value = client;
-    modalClientId.value = client.id;
-    modalClientShown.value = true;
-}
-
 
 </script>
 
@@ -44,7 +29,7 @@ function editClient(client) {
         <template #header>
             <div class="d-flex justify-content-between">
                 <h2>Клиенты</h2>
-                <BButton @click="newClient()" variant="primary">Добавить клиента</BButton>
+                <BButton @click="clientEditModal.showAsNew()" variant="primary">Добавить клиента</BButton>
             </div>
         </template>
 
@@ -59,7 +44,7 @@ function editClient(client) {
                 </thead>
 
                 <tbody>
-                <tr v-for="client in clients.data" :key="client.id" @click="editClient(client)">
+                <tr v-for="client in clients.data" :key="client.id" @click="clientEditModal.showAsEdit(client)">
                     <td>{{ client.name }}</td>
                     <td>{{ client.address }}</td>
                     <td>{{ client.email }}</td>
@@ -74,5 +59,5 @@ function editClient(client) {
         </div>
     </AuthenticatedLayout>
 
-    <EditModal :client="clientModel" :id="modalClientId" v-model:show="modalClientShown"/>
+    <ClientEditModal ref="clientEditModal" />
 </template>
