@@ -43,7 +43,6 @@ defineExpose({showAsNew, showAsEdit});
 
 
 const show = ref(false);
-const id = ref(null);
 const client = ref(null);
 const form = ref(null);
 const processing = ref(false);
@@ -54,14 +53,12 @@ const title = computed(() => isNew.value ? 'Добавление клиента'
 function showAsNew() {
     resetForm();
     client.value = null;
-    id.value = null;
     show.value = true;
 }
 
 function showAsEdit(editableClient) {
     resetForm(editableClient);
     client.value = editableClient;
-    id.value = editableClient.id;
     show.value = true;
 }
 
