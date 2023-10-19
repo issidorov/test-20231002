@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import EditModal from "@/Components/EditModal.vue";
+import EditModal from "@/Components/EditModal/EditModal.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { BFormGroup, BFormSelect } from "bootstrap-vue-next";
 import {router, useForm} from "@inertiajs/vue3";
