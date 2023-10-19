@@ -20,7 +20,6 @@ import {router} from "@inertiajs/vue3";
 import {ref} from "vue";
 
 const props = defineProps({
-    /** @deprecated */
     urlOnDelete: {
         required: false,
     },
@@ -43,15 +42,15 @@ function cancel() {
 }
 
 function remove() {
-    emit('confirmed');
-
-    if (props.urlOnDelete) {
-        router.visit(props.urlOnDelete, {
-            method: 'delete',
-            onSuccess() {
-                emit('update:show', false);
-            },
-        })
-    }
+    processing.value = true;
+    router.visit(props.urlOnDelete, {
+        method: 'delete',
+        onSuccess() {
+            emit('update:show', false);
+        },
+        onFinish() {
+            processing.value = false;
+        }
+    })
 }
 </script>

@@ -1,24 +1,19 @@
 <template>
-    <BModal
-        :model-value="show"
-        :title="title || (isNew ? 'Добавление' : 'Редактирование')"
-        @update:model-value="$emit('update:show', $event.target?.value || false)"
-        @hidden="$emit('init')"
-    >
-        <form @submit.prevent="submit">
-            <slot />
+    <BModal v-model="show" :title="title">
+        <form @submit.prevent="onSave()" v-if="form">
+            <slot :form="form" />
         </form>
 
         <template #footer>
             <div class="d-flex justify-content-end w-100">
                 <div class="me-auto">
-                    <BButton variant="danger" @click="showDeleteConfirm()" v-if="!isNew">Удалить</BButton>
+                    <BButton variant="danger" @click="onDelete()" v-if="!isNew">Удалить</BButton>
                 </div>
 
                 <div class="d-flex gap-2">
-                    <BButton variant="secondary" @click="cancel()">Отменить</BButton>
+                    <BButton variant="secondary" @click="onCancel()">Отменить</BButton>
 
-                    <BButton variant="primary" @click="submit()" :disabled="processing">
+                    <BButton variant="primary" @click="onSave()" :disabled="saveProcessing">
                         {{ isNew ? 'Добавить' : 'Изменить' }}
                     </BButton>
                 </div>
@@ -26,53 +21,60 @@
         </template>
     </BModal>
 
-    <DeleteConfirm v-model:show="deleteConfirm" @confirmed="$emit('delete')" yes-title="Удалить клиента">
-        <slot name="deleteConfirm"/>
+    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="deleteUrl" yes-title="Удалить">
+        <slot name="deleteConfirm" :form="form" v-if="form" />
     </DeleteConfirm>
 </template>
 
 <script setup>
 import DeleteConfirm from "@/Components/DeleteConfirm.vue";
 import { BModal, BButton } from "bootstrap-vue-next";
-import {onBeforeMount, ref} from "vue";
+import {ref} from "vue";
+import {router, useForm} from '@inertiajs/vue3';
 
-const props = defineProps({
-    title: {
-        type: String,
-    },
-    show: {
-        type: Boolean,
-        required: true,
-    },
-    isNew: {
-        type: Boolean,
-        required: true,
-    },
+const isNew = ref(true);
+const title = ref('');
+const afterSaveRedirectToUrl = ref('');
+const saveUrl = ref('');
+const deleteUrl = ref('');
+
+const show = ref(false);
+const saveProcessing = ref(false);
+const deleteConfirm = ref(false);
+const form = ref(null);
+
+defineExpose({
+    show(params) {
+        isNew.value = params.isNew;
+        title.value = params.title;
+        afterSaveRedirectToUrl.value = params.afterSaveRedirectToUrl;
+        saveUrl.value = params.saveUrl;
+        deleteUrl.value = params.deleteUrl;
+        form.value = useForm(params.initFormParams);
+        show.value = true;
+    }
 });
 
-const emit = defineEmits(['update:show', 'init', 'save', 'delete']);
-
-onBeforeMount(() => {
-    emit('init');
-})
-
-const processing = ref(false);
-const deleteConfirm = ref(false);
-
-function submit() {
-    processing.value = true;
-    emit('save', {
+function onSave() {
+    saveProcessing.value = true;
+    form.value.post(saveUrl.value, {
+        onSuccess() {
+            show.value = false;
+            if (afterSaveRedirectToUrl.value) {
+                router.visit(afterSaveRedirectToUrl.value);
+            }
+        },
         onFinish() {
-            processing.value = false;
+            saveProcessing.value = false;
         },
     });
 }
 
-function cancel() {
-    emit('update:show', false);
+function onCancel() {
+    show.value = false;
 }
 
-function showDeleteConfirm() {
+function onDelete() {
     deleteConfirm.value = true;
 }
 
