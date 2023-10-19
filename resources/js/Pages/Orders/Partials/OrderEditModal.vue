@@ -63,7 +63,6 @@ const props = defineProps({
 });
 
 const show = ref(false);
-const id = ref(null);
 const order = ref(null);
 const form = ref(null);
 const processing = ref(false);
@@ -91,14 +90,12 @@ function getClientText(client) {
 function showAsNew() {
     resetForm();
     order.value = null;
-    id.value = null;
     show.value = true;
 }
 
 function showAsEdit(editableOrder) {
     resetForm(editableOrder);
     order.value = editableOrder;
-    id.value = editableOrder.id;
     show.value = true;
 }
 
