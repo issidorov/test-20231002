@@ -21,7 +21,7 @@
         </template>
     </BModal>
 
-    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="deleteUrl" yes-title="Удалить">
+    <DeleteConfirm v-model:show="deleteConfirm" :url-on-delete="deleteUrl" yes-title="Удалить" @deleted="show=false">
         <slot name="deleteConfirm" :form="form" v-if="form" />
     </DeleteConfirm>
 </template>

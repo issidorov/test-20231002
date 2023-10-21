@@ -33,7 +33,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['update:show', 'confirmed'])
+const emit = defineEmits(['update:show', 'deleted'])
 
 const processing = ref(false);
 
@@ -43,10 +43,10 @@ function cancel() {
 
 function remove() {
     processing.value = true;
-    router.visit(props.urlOnDelete, {
-        method: 'delete',
+    router.delete(props.urlOnDelete, {
         onSuccess() {
             emit('update:show', false);
+            emit('deleted');
         },
         onFinish() {
             processing.value = false;
