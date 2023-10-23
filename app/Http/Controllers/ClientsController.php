@@ -19,10 +19,8 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function store(Request $request, string $id = null)
+    public function store(Request $request, Client $client)
     {
-        $client = Client::findOrNew($id);
-
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
@@ -36,7 +34,9 @@ class ClientsController extends Controller
         DB::commit();
     }
 
-    public function delete(string $id) {
-        Client::findOrFail($id)->delete();
+    public function delete(Client $client) {
+        DB::beginTransaction();
+        $client->delete();
+        DB::commit();
     }
 }

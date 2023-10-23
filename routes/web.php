@@ -30,13 +30,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
     Route::post('/client/new', [ClientsController::class, 'store'])->name('client.new');
-    Route::post('/client/{id}', [ClientsController::class, 'store'])->name('client.update');
-    Route::delete('/client/{id}', [ClientsController::class, 'delete'])->name('client.delete');
+    Route::post('/client/{client}', [ClientsController::class, 'store'])->name('client.update');
+    Route::delete('/client/{client}', [ClientsController::class, 'delete'])->name('client.delete');
 
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
     Route::post('/order/new', [OrdersController::class, 'store'])->name('order.new');
-    Route::post('/order/{id}', [OrdersController::class, 'store'])->name('order.update');
-    Route::delete('/order/{id}', [OrdersController::class, 'delete'])->name('order.delete');
+    Route::post('/order/{order}', [OrdersController::class, 'store'])->name('order.update');
+    Route::delete('/order/{order}', [OrdersController::class, 'delete'])->name('order.delete');
 });
 
 Route::middleware('auth')->group(function () {

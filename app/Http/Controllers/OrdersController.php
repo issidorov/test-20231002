@@ -23,10 +23,8 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function store(Request $request, string $id = null)
+    public function store(Request $request, Order $order)
     {
-        $order = Order::findOrNew($id);
-
         $data = $request->validate([
             'number' => ['required', 'string', 'max:255'],
             'date' => ['required', 'string', 'max:255', 'date'],
@@ -41,7 +39,9 @@ class OrdersController extends Controller
         DB::commit();
     }
 
-    public function delete(string $id) {
-        Order::findOrFail($id)->delete();
+    public function delete(Order $order) {
+        DB::beginTransaction();
+        $order->delete();
+        DB::commit();
     }
 }
