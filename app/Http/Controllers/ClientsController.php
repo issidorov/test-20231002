@@ -19,7 +19,7 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function store(Request $request, Client $client)
+    public function store(Request $request, Client $client): void
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -34,7 +34,8 @@ class ClientsController extends Controller
         DB::commit();
     }
 
-    public function delete(Client $client) {
+    public function delete(Client $client): void
+    {
         DB::beginTransaction();
         $client->delete();
         DB::commit();

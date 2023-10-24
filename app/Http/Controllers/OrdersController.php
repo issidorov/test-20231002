@@ -23,7 +23,7 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function store(Request $request, Order $order)
+    public function store(Request $request, Order $order): void
     {
         $data = $request->validate([
             'number' => ['required', 'string', 'max:255'],
@@ -39,7 +39,8 @@ class OrdersController extends Controller
         DB::commit();
     }
 
-    public function delete(Order $order) {
+    public function delete(Order $order): void
+    {
         DB::beginTransaction();
         $order->delete();
         DB::commit();
