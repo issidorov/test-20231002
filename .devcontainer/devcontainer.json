@@ -9,7 +9,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"getpsalm.psalm-vscode-plugin"
+				"getpsalm.psalm-vscode-plugin",
+				"xdebug.php-debug"
 				// "mikestead.dotenv",
 				// "amiralizadeh9480.laravel-extra-intellisense",
 				// "ryannaddy.laravel-artisan",
@@ -20,6 +21,7 @@
 		}
 	},
 	"remoteUser": "sail",
+    "initializeCommand": "./vendor/bin/sail up -d"
 	// "postCreateCommand": "chown -R 1000:1000 /var/www/html"
 	// "forwardPorts": [],
 	// "runServices": [],
