@@ -9,6 +9,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"getpsalm.psalm-vscode-plugin"
 				// "mikestead.dotenv",
 				// "amiralizadeh9480.laravel-extra-intellisense",
 				// "ryannaddy.laravel-artisan",
